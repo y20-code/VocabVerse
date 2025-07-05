@@ -72,7 +72,7 @@
 
 ### 5. API 文档
 *   本项目使用 **Swagger (OpenAPI 3)** 进行接口管理。
-*   启动后端服务后，访问 [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html) 即可在线查看、调试所有API。
+*   启动后端服务后，访问 [http://localhost:8088/swagger-ui.html](http://localhost:8080/swagger-ui.html) 即可在线查看、调试所有API。
 ---
 
 ## 📸 项目截图
