@@ -1,13 +1,19 @@
 package com.yls.vocabverse.controller;
 
 import com.yls.vocabverse.dto.UserRegistrationRequest;
+import com.yls.vocabverse.entity.User;
+import com.yls.vocabverse.service.UserService;
+import com.yls.vocabverse.vo.Result;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
 
 /**
  * 用户认证模块的控制器 (Controller)。
@@ -22,6 +28,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/auth") // 所有认证相关接口的基础路径
 public class AuthController {
 
+    @Autowired
+    private UserService userService;
+
     /**
      * 处理用户注册请求的API端点。
      *
@@ -32,12 +41,36 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody UserRegistrationRequest request){
         System.out.println("接收到注册请求:" + request);
-
+        User user = new User();
+        user.setUsername(request.getUsername());
+        user.setPassword(request.getPassword());
+        user.setRole(request.getRole());
         // TODO: 在这里注入 UserService 并调用其 register 方法来处理真正的业务逻辑。
-
-
+        userService.register(user);
 
         return ResponseEntity.ok("注册接口调用成功！");
     }
+
+    @Operation(summary = "用户登录",description = "提供用户名、密码")
+    @PostMapping("/login")
+    public Result<?> loginUser(@RequestBody UserRegistrationRequest request){
+        try{
+            User user = new User();
+            user.setUsername(request.getUsername());
+            user.setPassword(request.getPassword());
+
+
+            String jwtToken = userService.login(user);
+
+            HashMap<Object, Object> data = new HashMap<>();
+            data.put("token", jwtToken);
+            return Result.success(data);
+        } catch (RuntimeException e){
+            return Result.error(401,e.getMessage());
+        }
+
+    }
+
+
 
 }
