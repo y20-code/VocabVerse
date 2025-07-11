@@ -26,7 +26,7 @@ public class SecurityConfig {
      */
     private static final String[] PUBLIC_URLS = {
             // --- 用户认证相关 ---
-//            "/api/v1/auth/**",      // 放行所有 /api/v1/auth/ 下的路径 (如: /register, /login)
+            "/api/v1/auth/**",      // 放行所有 /api/v1/auth/ 下的路径 (如: /register, /login)
 
             // --- Swagger UI 相关 ---
             "/v3/api-docs/**",      // Swagger 的 API JSON 描述文件
