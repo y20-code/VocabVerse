@@ -7,9 +7,9 @@ const router = createRouter({
   routes: [
     {
       path: '/', // 根路径
-    name: 'home',
-    component: HomeView,
-    meta: { requiresAuth: true }
+      name: 'home',
+      component: HomeView,
+      meta: { requiresAuth: true }
     },
     {
       path:'/login',
