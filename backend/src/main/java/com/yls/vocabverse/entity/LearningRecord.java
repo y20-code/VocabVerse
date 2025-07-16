@@ -16,7 +16,7 @@ public class LearningRecord {
 
     private Boolean isKnown;
 
-    private int reviewCount;
+    private Integer reviewCount;
 
     private LocalDateTime lastReviewTime;
 

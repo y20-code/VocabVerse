@@ -1,6 +1,9 @@
 
 package com.yls.vocabverse.config;
 
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import com.yls.vocabverse.filter.JwtAuthenticationFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,6 +22,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity // 核心注解，启用 Spring Security 的 Web 安全支持
 public class SecurityConfig {
+
+    @Autowired
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     /**
      * 定义需要公开访问的 URL 路径数组。
@@ -75,10 +81,7 @@ public class SecurityConfig {
                 );
 
         // --- TODO: 在这里添加你的 JWT 认证过滤器 ---
-        // 当我们实现了 JWT 过滤器后，会在这里把它加入到 Spring Security 的过滤器链中
-        // .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-
-        // 构建并返回配置好的 SecurityFilterChain
+            http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 }

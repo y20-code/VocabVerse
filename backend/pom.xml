@@ -47,17 +47,17 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<!-- MyBatis 与 Spring Boot 整合的核心依赖 -->
-<!--		<dependency>-->
-<!--			<groupId>org.mybatis.spring.boot</groupId>-->
-<!--			<artifactId>mybatis-spring-boot-starter</artifactId>-->
-<!--			<version>3.0.3</version>-->
-<!--		</dependency>-->
-
 		<dependency>
-			<groupId>com.baomidou</groupId>
-			<artifactId>mybatis-plus-boot-starter</artifactId>
-			<version>3.5.12</version>
+			<groupId>org.mybatis.spring.boot</groupId>
+			<artifactId>mybatis-spring-boot-starter</artifactId>
+			<version>3.0.3</version>
 		</dependency>
+
+<!--		<dependency>-->
+<!--			<groupId>com.baomidou</groupId>-->
+<!--			<artifactId>mybatis-plus-boot-starter</artifactId>-->
+<!--			<version>3.5.12</version>-->
+<!--		</dependency>-->
 
 		<!-- Java JWT (JJWT) Library -->
 		<dependency>

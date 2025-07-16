@@ -40,7 +40,7 @@ public class LearningRecordServiceImpl implements LearningRecordService {
             // 复习次数加一
             existingRecord.setReviewCount(existingRecord.getReviewCount() + 1);
 
-            learningRecordMapper.updateById(existingRecord); // 使用 MyBatis-Plus 的更新方法
+            learningRecordMapper.updateById(existingRecord);
             System.out.println("更新学习记录: " + existingRecord);
 
         } else {
@@ -50,7 +50,7 @@ public class LearningRecordServiceImpl implements LearningRecordService {
             newRecord.setWordId(wordId);
             newRecord.setIsKnown(isKnown);
             newRecord.setLastReviewTime(LocalDateTime.now());
-            newRecord.setReviewCount(1); // 第一次学习，复习次数为1
+//            newRecord.setReviewCount(1); // 第一次学习，复习次数为1
 
             learningRecordMapper.insert(newRecord); // 使用 MyBatis-Plus 的插入方法
             System.out.println("创建新学习记录: " + newRecord);
