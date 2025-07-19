@@ -7,6 +7,7 @@ import com.yls.vocabverse.vo.Result;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,9 +25,16 @@ public class LearningRecordController {
     @Operation(summary = "记录单词学习行为")
     @PostMapping
     public ResponseEntity<Result<?>> recordLearning(@RequestBody LearningRecordRequest request) {
-        // Controller 的职责就是参数校验和转发，核心逻辑交给 Service
-        learningRecordService.recordOrUpdate(request.getWordId(), request.getIsKnown());
-        return ResponseEntity.ok(Result.success("学习记录已更新"));
+        try {
+            // Controller 的职责就是参数校验和转发，核心逻辑交给 Service
+            learningRecordService.recordOrUpdate(request.getWordId(), request.getIsKnown());
+            return ResponseEntity.ok(Result.success("学习记录已更新"));
+        }catch (RuntimeException e) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Result.error(500, e.getMessage()));
+        }
+
     }
 
 }

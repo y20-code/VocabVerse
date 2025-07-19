@@ -3,11 +3,14 @@ package com.yls.vocabverse.service.impl;
 import com.yls.vocabverse.entity.LearningRecord;
 
 
+import com.yls.vocabverse.entity.User;
 import com.yls.vocabverse.mapper.LearningRecordMapper;
+import com.yls.vocabverse.mapper.UserMapper;
 import com.yls.vocabverse.service.LearningRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -20,6 +23,9 @@ public class LearningRecordServiceImpl implements LearningRecordService {
     @Autowired
     private LearningRecordMapper learningRecordMapper;
 
+    @Autowired
+    private UserMapper userMapper;
+
     @Override
     public void recordOrUpdate(Long wordId, Boolean isKnown) {
 
@@ -28,7 +34,15 @@ public class LearningRecordServiceImpl implements LearningRecordService {
             throw new RuntimeException("用户未登录或认证失败");
         }
 
-        Long userId = 1L; // TODO: 替换为从认证信息中动态获取
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String username = userDetails.getUsername();
+
+
+        User currentUser = userMapper.findByUsername(username);
+        if (currentUser == null) {
+            throw new RuntimeException("无法找到当前登录用户的信息");
+        }
+        Long userId = currentUser.getId();
 
         // --- 【关键步骤二：判断记录是否存在，并执行不同逻辑】 ---
         LearningRecord existingRecord = learningRecordMapper.findByUserIdAndWordId(userId, wordId);

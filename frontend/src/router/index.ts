@@ -8,7 +8,7 @@ const router = createRouter({
     {
       path: '/', // 根路径
       name: 'home',
-      component: HomeView,
+      component: () =>import('../views/WordbookSelectView.vue'),
       meta: { requiresAuth: true }
     },
     {
@@ -21,6 +21,11 @@ const router = createRouter({
       name: 'register',
       component: () => import('../views/RegisterView.vue'),
     },
+    {
+      path:'/study',
+      name: 'study',
+      component: () => import('../views/StudyView.vue'),
+    }
   ],
 })
 

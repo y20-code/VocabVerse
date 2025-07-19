@@ -1,6 +1,11 @@
 
 package com.yls.vocabverse.config;
 
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import com.yls.vocabverse.filter.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +17,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.filter.CorsFilter;
 
 /**
  * Spring Security 的核心配置类
@@ -21,6 +27,7 @@ import org.springframework.security.web.SecurityFilterChain;
  */
 @Configuration
 @EnableWebSecurity // 核心注解，启用 Spring Security 的 Web 安全支持
+@EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfig {
 
     @Autowired
@@ -53,6 +60,15 @@ public class SecurityConfig {
     }
 
     /**
+     * 从 AuthenticationConfiguration 中获取 AuthenticationManager
+     * 这是 Spring Security 推荐的认证管理器配置方式
+     */
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
+    }
+
+    /**
      * 配置安全过滤器链 (SecurityFilterChain)，这是 Spring Security 3.x 的核心配置入口。
      * 通过链式调用，可以精细化地配置每一个安全细节。
      *
@@ -61,9 +77,10 @@ public class SecurityConfig {
      * @throws Exception 配置过程中可能抛出的异常
      */
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, CorsFilter corsFilter) throws Exception {
         // --- 核心配置链 ---
         http
+                .cors(Customizer.withDefaults())
                 // 1. 关闭 CSRF (跨站请求伪造) 防护
                 // 原因：我们采用 JWT 进行无状态认证，不依赖于 session 和 cookie，CSRF 攻击的基础不存在。
                 .csrf(csrf -> csrf.disable())
@@ -74,6 +91,7 @@ public class SecurityConfig {
 
                 // 3. 配置 HTTP 请求的授权规则
                 .authorizeHttpRequests(auth -> auth
+//                        .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                         // 对所有在 PUBLIC_URLS 数组中定义的路径，允许所有用户匿名访问。
                         .requestMatchers(PUBLIC_URLS).permitAll()
                         // 除了上面明确放行的路径，其他任何请求都需要经过认证才能访问。

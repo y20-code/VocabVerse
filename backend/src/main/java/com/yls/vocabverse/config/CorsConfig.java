@@ -3,6 +3,7 @@ package com.yls.vocabverse.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
@@ -45,5 +46,29 @@ public class CorsConfig {
 
         // 8. 返回一个新的 CorsFilter Bean
         return new CorsFilter(source);
+    }
+
+    /**
+     * 配置 CORS 的核心配置源 Bean
+     * Spring Security 会自动寻找并使用这个 Bean
+     * @return CorsConfigurationSource
+     */
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        // 1. 创建 CorsConfiguration 对象
+        CorsConfiguration config = new CorsConfiguration();
+        config.addAllowedOrigin("http://localhost:5173");
+        config.setAllowCredentials(true);
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+
+        // 2. 创建 UrlBasedCorsConfigurationSource 对象
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+
+        // 3. 为所有接口路径 (/**) 应用 CORS 配置
+        source.registerCorsConfiguration("/**", config);
+
+        // 4. 返回这个配置源
+        return source;
     }
 }

@@ -69,6 +69,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 // 8. 【核心】将这个 Authentication 对象放入 SecurityContext 中
                 //    这样，Spring Security 就知道当前用户已经认证成功了
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+
+                System.out.println("认证成功！用户信息已放入 SecurityContext。用户: " +
+                        SecurityContextHolder.getContext().getAuthentication().getName() +
+                        ", 权限: " + SecurityContextHolder.getContext().getAuthentication().getAuthorities());
             }
         }
         
