@@ -16,7 +16,6 @@ public class WordServiceImpl implements WordService {
 
     @Override
     public List<Word> getWordsByBookId(Long wordbookId) {
-
         return wordMapper.findByWordbookId(wordbookId);
     }
 }

@@ -17,7 +17,7 @@ public class WordbookServiceImpl implements WordbookService {
 
     @Override
     public List<Wordbook> getWordbooks() {
-        return wordbookMapper.getWordbooks();
+        return wordbookMapper.findAllWithWordCount();
     }
 
 

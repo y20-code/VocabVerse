@@ -1,6 +1,6 @@
 // src/stores/user.ts
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import { ref,computed } from 'vue';
 import request,{type ApiResponse } from '@/utils/request';
 
 
@@ -10,6 +10,8 @@ export const useUserStore = defineStore('user', () => {
   // --- State ---
   const token = ref<string>('');
   const userInfo = ref<any>({}); // 暂时用 any
+
+  const isAuthenticated = computed(() => !!token.value);
 
   // --- Actions ---
   const setToken = (newToken: string) => {
@@ -78,7 +80,8 @@ export const useUserStore = defineStore('user', () => {
     logout, // 【关键】将新创建的 logout 方法导出
     setToken,
     setUserInfo,
-    register
+    register,
+    isAuthenticated
   };
 }, {
   persist: true,

@@ -20,6 +20,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useStudyStore } from '@/stores/study';
+import { useRouter } from 'vue-router';
+const router = useRouter();
 
 const studyStore = useStudyStore();
 
@@ -50,7 +52,7 @@ const handleAction = async (isKnown: boolean) => {
     // 所有单词都学完了
     alert('本组单词学习完毕！');
     // 可以跳转回词书列表页
-    // router.push('/wordbooks');
+    router.push('/wordbooks');
   }
 };
 </script>

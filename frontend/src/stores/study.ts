@@ -24,7 +24,9 @@ export const useStudyStore = defineStore('study', () => {
         async recordLearning(payload: LearningRecordPayload) {
             await request.post('/learning-records', payload);
         },
+        async fetchwordcount(wordbookId: number) {
 
+        }
     }
 
     return {

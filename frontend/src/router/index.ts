@@ -1,31 +1,49 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue';
+import AppLayout from '@/layout/AppLayout.vue';
 import { useUserStore } from '@/stores/user';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {
-      path: '/', // 根路径
-      name: 'home',
-      component: () =>import('../views/WordbookSelectView.vue'),
-      meta: { requiresAuth: true }
-    },
-    {
-      path:'/login',
-      name: 'login',
-      component: () => import('../views/LoginView.vue'),
-    },
-    {
-      path:'/register',
-      name: 'register',
-      component: () => import('../views/RegisterView.vue'),
-    },
-    {
-      path:'/study',
-      name: 'study',
-      component: () => import('../views/StudyView.vue'),
-    }
+      // --- 独立布局的页面 (不需要顶部导航栏) ---
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('../views/LoginView.vue'),
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: () => import('../views/RegisterView.vue'),
+  },
+
+  // --- 【关键】使用 AppLayout 布局的页面组 ---
+  {
+    path: '/',
+    component: AppLayout, // 父路由使用 AppLayout 组件
+    redirect: '/home', // 访问'/'时，自动重定向到'/home'
+    children: [ // 所有子路由都会被渲染在 AppLayout 的 <router-view> 中
+      {
+        path: 'home', // 访问 /home 时
+        name: 'home',
+        component: () => import('../views/HomeView.vue'),
+        meta: { requiresAuth: true } // 标记需要认证
+      },
+      {
+        path: 'wordbooks', // 访问 /wordbooks 时
+        name: 'wordbooks',
+        component: () => import('../views/WordbookSelectView.vue'),
+        meta: { requiresAuth: true }
+      },
+      {
+        path: 'study', // 访问 /study 时
+        name: 'study',
+        component: () => import('../views/StudyView.vue'),
+        meta: { requiresAuth: true }
+      }
+      
+    ]
+  }
   ],
 })
 
