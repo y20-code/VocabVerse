@@ -6,6 +6,7 @@ import com.mihoyo.admin.entity.User;
 import com.mihoyo.admin.mapper.UserMapper;
 import com.mihoyo.admin.service.UserService;
 import com.mihoyo.admin.utils.JwtUtils;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,10 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.selectByLoginAccount(loginDTO.getLoginAccount());
 
         if (user == null){
+            throw new RuntimeException("账号或密码错误");
+        }
+
+        if(!BCrypt.checkpw(loginDTO.getPassword(), user.getPassword())){
             throw new RuntimeException("账号或密码错误");
         }
 
@@ -47,8 +52,10 @@ public class UserServiceImpl implements UserService {
 
         User user = new User();
 
+        String hashpw = BCrypt.hashpw(registerDTO.getPassword(), BCrypt.gensalt());
+
         user.setLoginAccount(registerDTO.getLoginAccount());
-        user.setPassword(registerDTO.getPassword());
+        user.setPassword(hashpw);
         user.setRole(registerDTO.getRole());
 
         String uuid = java.util.UUID.randomUUID().toString();
