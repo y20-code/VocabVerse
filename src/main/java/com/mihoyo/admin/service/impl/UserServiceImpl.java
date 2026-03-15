@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("越权访问：该账号无管理后台权限！");
         }
 
-        String realToken = JwtUtils.generateToken(user.getLoginAccount(), user.getRole());
+        String realToken = JwtUtils.generateToken(user.getLoginAccount(), user.getRole(),user.getId());
 
         user.setToken(realToken);
         user.setPassword(null);
