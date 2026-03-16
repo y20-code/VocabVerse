@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mihoyo.admin.mapper.DashboardMapper">
+
+    <select id="avgStudentAccuracy" resultType="java.lang.Double">
+        SELECT AVG(l.isCorrect) * 100
+        FROM Learning_Logs l
+        INNER JOIN Users u ON l.studentId = u.id
+        INNER JOIN Classes c ON u.classId = c.id
+        WHERE c.teacherId = #{teacherId}
+    </select>
+
+    <select id="selectYesterdayAssignments" resultType="com.mihoyo.admin.entity.AssignmentEntity">
+        SELECT * FROM Assignments
+        WHERE DATE(createdAt) = #{targetDate}
+        AND classId IN
+        <foreach collection="classIds" item="classId" open="(" separator="," close=")">
+            #{classId}
+        </foreach>
+    </select>
+
+    <select id="selectSlackersByAssignmentIds" resultType="com.mihoyo.admin.dto.SlackerDTO">
+        SELECT
+        a.classId AS classId,
+        u.id AS id,
+        u.fullName AS name,
+        IFNULL(ap.progress, 0) AS progress
+        FROM Users u
+        JOIN Assignments a
+        ON u.classId = a.classId
+        LEFT JOIN Assignment_Progress ap
+        ON u.id = ap.studentId AND a.id = ap.assignmentId
+        WHERE u.role = 'student'
+        AND (ap.progress &lt; 100 OR ap.progress IS NULL)
+        AND a.id IN
+        <foreach collection="assignmentIds" item="assignmentId" open="(" separator="," close=")">
+            #{assignmentId}
+        </foreach>
+    </select>
+
+</mapper>
