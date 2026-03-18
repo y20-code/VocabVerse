@@ -19,7 +19,7 @@ Content-Type: application/json
 
 ### 测试看板统计接口
 GET http://127.0.0.1:8081/api/v1/dashboard/stats
-Authorization:Bearer eyJhbGciOiJIUzI1NiJ9.eyJsb2dpbkFjY291bnQiOiJhZG1pbl90ZWFjaGVyIiwicm9sZSI6InRlYWNoZXIiLCJpZCI6IjFkMTE2ZDE4LTExNDgtNDFiMS05NmE3LTM5MTEyMWQwMDc0MyIsImlhdCI6MTc3MzU4MjgyNSwiZXhwIjoxNzczNjY5MjI1fQ.ivaVXrynT0Bq4_-zB-Wv8KDZq1q8BGE19VDHlZUWZHU
+Authorization:Bearer eyJhbGciOiJIUzI1NiJ9.eyJsb2dpbkFjY291bnQiOiJhZG1pbl90ZWFjaGVyIiwicm9sZSI6InRlYWNoZXIiLCJpZCI6IjFkMTE2ZDE4LTExNDgtNDFiMS05NmE3LTM5MTEyMWQwMDc0MyIsImlhdCI6MTc3MzgxNTU2NiwiZXhwIjoxNzczOTAxOTY2fQ.-oa4NphhCDe0O9fTqQ73PhQuW-NT5y_Jstfvq-R6LLM
 
 ### 测试看板统计接口
 GET http://127.0.0.1:8081/api/v1/dashboard/class-progress

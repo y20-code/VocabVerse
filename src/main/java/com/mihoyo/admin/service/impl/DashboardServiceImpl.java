@@ -2,6 +2,7 @@ package com.mihoyo.admin.service.impl;
 
 import com.mihoyo.admin.dto.ClassProgressDTO;
 import com.mihoyo.admin.dto.DashboardStatsDTO;
+import com.mihoyo.admin.dto.HardWordDTO;
 import com.mihoyo.admin.dto.SlackerDTO;
 import com.mihoyo.admin.entity.AssignmentEntity;
 import com.mihoyo.admin.entity.ClassEntity;
@@ -26,22 +27,41 @@ public class DashboardServiceImpl implements DashboardService {
     @Override
     public DashboardStatsDTO getDashboardStats(String teacherId) {
 
+        //获取班级
         Integer activeClasses = dashboardMapper.countActiveClasses(teacherId);
 
+        //获取作业记录
         Integer assignments = dashboardMapper.countAssignments(teacherId);
 
+        //获取平均正确率
         Double avgStudentAccuracy = dashboardMapper.avgStudentAccuracy(teacherId);
 
         if(avgStudentAccuracy == null){
             avgStudentAccuracy = 0.0;
         }
 
+        List<HardWordDTO> hardWords = new ArrayList<>();
+        
+        List<ClassEntity> myClasses = dashboardMapper.selectClassesByTeacherId(teacherId);
+        
+        if(myClasses != null && !myClasses.isEmpty()){
+            List<String> classIds = myClasses.stream()
+                    .map(ClassEntity::getId)
+                    .collect(Collectors.toList());
+
+            LocalDate today = LocalDate.now();
+            LocalDate targetDate = today.getDayOfWeek() == DayOfWeek.MONDAY ? today.minusDays(3) : today.minusDays(1);
+            String statDateStr = targetDate.toString();
+
+            hardWords = dashboardMapper.selectTopHardWords(classIds,statDateStr);
+        }
 
         DashboardStatsDTO dashboardStatsDTO = new DashboardStatsDTO();
 
         dashboardStatsDTO.setActiveClassCount(activeClasses);
         dashboardStatsDTO.setPendingAssignmentCount(assignments);
         dashboardStatsDTO.setAvgCorrectRate(avgStudentAccuracy);
+        dashboardStatsDTO.setHardWords(hardWords);
 
         return dashboardStatsDTO;
     }

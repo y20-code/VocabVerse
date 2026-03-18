@@ -51,4 +51,22 @@
         GROUP BY classId
     </select>
 
+    <select id="selectTopHardWords" resultType="com.mihoyo.admin.dto.HardWordDTO">
+        SELECT
+        v.word AS word,
+        COUNT(DISTINCT ll.studentId) AS count
+        FROM Learning_Logs ll
+        JOIN Users u ON ll.studentId = u.id
+        JOIN Vocabularies v ON ll.wordId = v.id
+        WHERE ll.isCorrect = FALSE
+        AND DATE(ll.createdAt) = #{targetDate}
+        AND u.classId IN
+        <foreach collection="classIds" item="classId" open="(" separator="," close=")">
+            #{classId}
+        </foreach>
+        GROUP BY v.word
+        ORDER BY count DESC
+        LIMIT 5
+    </select>
+
 </mapper>

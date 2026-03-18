@@ -2,6 +2,7 @@ package com.mihoyo.admin.mapper;
 
 
 
+import com.mihoyo.admin.dto.HardWordDTO;
 import com.mihoyo.admin.dto.SlackerDTO;
 import com.mihoyo.admin.entity.AssignmentEntity;
 import com.mihoyo.admin.entity.ClassEntity;
@@ -40,4 +41,7 @@ public interface DashboardMapper {
     );
 
     List<Map<String, Object>> countStudentsByClassIds(@Param("classIds") List<String> classIds);
+
+    //查询昨日作业学生最容易错的5个单词
+    List<HardWordDTO> selectTopHardWords(@Param("classIds") List<String> classIds,@Param("targetDate") String targetDate);
 }

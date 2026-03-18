@@ -22,19 +22,17 @@ public class DashboardController {
     @Autowired
     private DashboardService dashboardService;
 
-    @Operation(summary = "获取顶部统计看板数据", description = "解析当前登录教师的Token，返回其名下活跃班级数、未过期作业数及学生平均正确率")
+    @Operation(summary = "获取顶部统计看板数据", description = "解析当前登录教师的Token，返回其名下活跃班级数、未过期作业数、学生平均正确率，以及高频易错词汇榜单")
     @GetMapping("/stats")
     public Result<DashboardStatsDTO> getDashboardStats(@RequestHeader("Authorization") String token) {
 
-
+        //获取JWT令牌，进行解析
         String realJwt = token.replace("Bearer ", "");
-
         Claims claims = JwtUtils.parseToken(realJwt);
-
         String currentTeacherId = (String) claims.get("id");
 
+        //返回信息
         DashboardStatsDTO dashboardStats = dashboardService.getDashboardStats(currentTeacherId);
-
         return Result.success(dashboardStats);
     }
 
