@@ -1,6 +1,7 @@
 package com.mihoyo.admin.controller;
 
 import com.mihoyo.admin.common.Result;
+import com.mihoyo.admin.dto.ClassProgressDTO;
 import com.mihoyo.admin.dto.DashboardStatsDTO;
 import com.mihoyo.admin.service.DashboardService;
 import com.mihoyo.admin.utils.JwtUtils;
@@ -9,6 +10,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin
 @Tag(name = "2. 教师看板模块", description = "负责展示教师工作台的核心统计数据")
@@ -33,5 +36,19 @@ public class DashboardController {
         DashboardStatsDTO dashboardStats = dashboardService.getDashboardStats(currentTeacherId);
 
         return Result.success(dashboardStats);
+    }
+
+    @Operation(summary = "获取班级昨日作业进度", description = "获取当前老师名下班级的作业完成率及未通关名单")
+    @GetMapping("/class-progress")
+    public Result<List<ClassProgressDTO>> getClassProgress(@RequestHeader("Authorization") String token) {
+
+        // 解析 JWT，拿到老师 ID
+        String realJwt = token.replace("Bearer ", "");
+        Claims claims = JwtUtils.parseToken(realJwt);
+        String currentTeacherId = (String) claims.get("id");
+
+        List<ClassProgressDTO> progressList = dashboardService.getClassProgress(currentTeacherId);
+
+        return Result.success(progressList);
     }
 }

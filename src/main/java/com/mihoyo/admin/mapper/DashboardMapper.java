@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface DashboardMapper {
@@ -38,5 +39,5 @@ public interface DashboardMapper {
             @Param("assignmentIds") List<String> assignmentIds
     );
 
-
+    List<Map<String, Object>> countStudentsByClassIds(@Param("classIds") List<String> classIds);
 }

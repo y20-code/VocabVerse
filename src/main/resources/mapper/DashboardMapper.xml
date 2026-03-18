@@ -40,4 +40,15 @@
         </foreach>
     </select>
 
+    <select id="countStudentsByClassIds" resultType="java.util.Map">
+        SELECT classId, COUNT(*) as total
+        FROM Users
+        WHERE role = 'student'
+        AND classId IN
+        <foreach collection="classIds" item="classId" open="(" separator="," close=")">
+            #{classId}
+        </foreach>
+        GROUP BY classId
+    </select>
+
 </mapper>
