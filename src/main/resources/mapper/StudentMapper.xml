@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mihoyo.admin.mapper.StudentMapper">
+
+    <select id="selectTeacherStudentsList" resultType="com.mihoyo.admin.dto.StudentListItemDTO">
+        SELECT
+        u.id AS `key`,
+        u.fullName AS name,
+        u.customAvatar AS avatar,
+        DATE_FORMAT(u.createdAt, '%Y-%m-%d') AS joinDate,
+        u.classId AS classId,
+
+        COALESCE(word_stats.wordCount, 0) AS words,
+        CASE
+        WHEN COALESCE(word_stats.wordCount, 0) > 20 THEN 5
+        WHEN COALESCE(word_stats.wordCount, 0) > 5 THEN 4
+        ELSE 3
+        END AS stars,
+        COALESCE(DATE_FORMAT(log_stats.lastActiveTime, '%Y-%m-%d'), '暂无活动') AS lastActive
+
+        FROM Users u
+        LEFT JOIN (
+        SELECT studentId, COUNT(DISTINCT wordId) AS wordCount
+        FROM Student_Words
+        GROUP BY studentId
+        ) AS word_stats ON u.id = word_stats.studentId
+        LEFT JOIN (
+        SELECT studentId, MAX(createdAt) AS lastActiveTime
+        FROM Learning_Logs
+        GROUP BY studentId
+        ) AS log_stats ON u.id = log_stats.studentId
+        WHERE u.classId IN
+        <foreach collection="classIds" item="classId" open="(" separator="," close=")">
+            #{classId}
+        </foreach>
+        AND u.role = 'student'
+
+        ORDER BY u.createdAt DESC
+    </select>
+
+</mapper>
