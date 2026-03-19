@@ -12,4 +12,6 @@ public class AssignmentEntity {
     private String title;
     private LocalDateTime deadline;
     private LocalDateTime createdAt;
+    private Boolean isPersonalized;
+    private String targetGrade;
 }

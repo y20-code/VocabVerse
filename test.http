@@ -28,3 +28,25 @@ Authorization:Bearer eyJhbGciOiJIUzI1NiJ9.eyJsb2dpbkFjY291bnQiOiJhZG1pbl90ZWFjaG
 ### 测试学生列表接口
 GET http://localhost:8081/api/v1/students
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJsb2dpbkFjY291bnQiOiJhZG1pbl90ZWFjaGVyIiwicm9sZSI6InRlYWNoZXIiLCJpZCI6IjFkMTE2ZDE4LTExNDgtNDFiMS05NmE3LTM5MTEyMWQwMDc0MyIsImlhdCI6MTc3MzkxMTM5MCwiZXhwIjoxNzczOTk3NzkwfQ.-tI3msVPL0K--fWutErE1VNvKzvx3wBkMOpyPApfQ0A
+
+
+### 测试布置作业
+POST http://localhost:8081/api/v1/assignments
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJsb2dpbkFjY291bnQiOiJhZG1pbl90ZWFjaGVyIiwicm9sZSI6InRlYWNoZXIiLCJpZCI6IjFkMTE2ZDE4LTExNDgtNDFiMS05NmE3LTM5MTEyMWQwMDc0MyIsImlhdCI6MTc3MzkxNDc2MSwiZXhwIjoxNzc0MDAxMTYxfQ.fb9OwHyL0lfN7jD1eq75vaUB2rJBuZfaFRa1ditym84
+
+{
+  "classIds": [
+    "class-test-01",
+    "class-test-02"
+  ],
+  "title": "春季核心词汇突击测试",
+  "targetGrade": "高一核心词汇",
+  "deadline": "2026-03-20T23:59:59",
+  "baseWordIds": [
+    "word-test-01",
+    "word-test-02",
+    "word-test-03"
+  ],
+  "isPersonalized": true
+}

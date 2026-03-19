@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mihoyo.admin.mapper.AssignmentMapper">
+
+    <insert id="insertAssignment">
+        INSERT INTO Assignments (id, classId, title, deadline, createdAt, isPersonalized, targetGrade)
+        VALUES (#{id}, #{classId}, #{title}, #{deadline}, #{createdAt}, #{isPersonalized}, #{targetGrade})
+    </insert>
+
+    <insert id="batchInsertAssignmentWords">
+        INSERT INTO Assignment_Words (id, assignmentId, wordId)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id}, #{item.assignmentId}, #{item.wordId})
+        </foreach>
+    </insert>
+
+    <select id="selectStudentIdsByClassId" resultType="java.lang.String">
+        SELECT id FROM Users
+        WHERE classId = #{classId} AND role = 'student'
+    </select>
+
+    <insert id="batchInsertAssignmentProgress">
+        INSERT INTO Assignment_Progress (id, assignmentId, studentId, status, progress)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id}, #{item.assignmentId}, #{item.studentId}, #{item.status}, #{item.progress})
+        </foreach>
+    </insert>
+
+    <select id="selectClassWeakWordIds" resultType="java.lang.String">
+        SELECT DISTINCT sw.wordId
+        FROM Student_Words sw
+                 JOIN Users u ON sw.studentId = u.id
+        WHERE u.classId = #{classId}
+          AND sw.incorrectCount > 0
+    </select>
+
+</mapper>
