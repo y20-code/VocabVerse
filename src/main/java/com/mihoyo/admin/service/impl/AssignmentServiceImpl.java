@@ -1,5 +1,6 @@
 package com.mihoyo.admin.service.impl;
 
+import com.mihoyo.admin.dto.ClassDTO;
 import com.mihoyo.admin.dto.CreateAssignmentReqDTO;
 import com.mihoyo.admin.entity.AssignmentEntity;
 import com.mihoyo.admin.entity.AssignmentProgressEntity;
@@ -112,4 +113,11 @@ public class AssignmentServiceImpl implements AssignmentService {
             }
         }
     }
+
+    @Override
+    public List<ClassDTO> getClasses(String teacherId) {
+        return assignmentMapper.selectClassesByTeacherId(teacherId);
+    }
+
+
 }

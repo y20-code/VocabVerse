@@ -11,7 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin
+
 @Tag(name = "1. 认证与授权模块", description = "负责用户的登录、登出与权限校验")
 @RestController
 @RequestMapping("/api/v1/users")

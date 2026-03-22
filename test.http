@@ -50,3 +50,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJsb2dpbkFjY291bnQiOiJhZG1pbl90ZWFja
   ],
   "isPersonalized": true
 }
+
+### 测试班级
+GET http://localhost:8081/api/v1/assignments/options
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJsb2dpbkFjY291bnQiOiJhZG1pbl90ZWFjaGVyIiwicm9sZSI6InRlYWNoZXIiLCJpZCI6IjFkMTE2ZDE4LTExNDgtNDFiMS05NmE3LTM5MTEyMWQwMDc0MyIsImlhdCI6MTc3NDA4NjY3MSwiZXhwIjoxNzc0MTczMDcxfQ.GXAnrXRrtqh6SSACmumg_qXoZEds-jtVTu76K-mWGO0

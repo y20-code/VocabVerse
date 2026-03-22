@@ -2,6 +2,7 @@ package com.mihoyo.admin.controller;
 
 
 import com.mihoyo.admin.common.Result;
+import com.mihoyo.admin.dto.ClassDTO;
 import com.mihoyo.admin.dto.CreateAssignmentReqDTO;
 import com.mihoyo.admin.service.AssignmentService;
 import com.mihoyo.admin.utils.JwtUtils;
@@ -11,7 +12,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin
+import java.util.List;
+
+
 @Tag(name = "作业管理接口", description = "处理千人千面作业的分发与管控")
 @RestController
 @RequestMapping("/api/v1/assignments")
@@ -36,5 +39,17 @@ public class AssignmentController {
 
 
         return Result.success();
+    }
+
+    @Operation(summary = "获取班级名称", description = "只要班级名称")
+    @GetMapping("/options")
+    public Result<List<ClassDTO>> getMyClassOptions(@RequestHeader("Authorization") String token){
+        String realJwt = token.replace("Bearer ", "");
+        Claims claims = JwtUtils.parseToken(realJwt);
+        String currentTeacherId = (String) claims.get("id");
+
+        List<ClassDTO> classes = assignmentService.getClasses(currentTeacherId);
+
+        return Result.success(classes);
     }
 }

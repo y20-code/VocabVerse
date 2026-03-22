@@ -11,7 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin
+
 @Tag(name = "学生管理接口", description = "处理学生大名单、学情分析等核心业务")
 @RestController
 @RequestMapping("/api/v1/students")

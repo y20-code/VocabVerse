@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin
+
 @Tag(name = "2. 教师看板模块", description = "负责展示教师工作台的核心统计数据")
 @RestController
 @RequestMapping("/api/v1/dashboard")
