@@ -62,3 +62,17 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJsb2dpbkFjY291bnQiOiJhZG1pbl90ZWFja
 ### 获取单词
 GET http://localhost:8081/api/v1/vocabularies?bookId=book-test-01
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJsb2dpbkFjY291bnQiOiJhZG1pbl90ZWFjaGVyIiwicm9sZSI6InRlYWNoZXIiLCJpZCI6IjFkMTE2ZDE4LTExNDgtNDFiMS05NmE3LTM5MTEyMWQwMDc0MyIsImlhdCI6MTc3NDI3NDE4MywiZXhwIjoxNzc0MzYwNTgzfQ.R9NWlC2HjgktuwiMxW0NTkOa1mAL9G9LUKMlyVRKTjw
+
+
+### 测试：录入极其复杂的多词性单词 diet
+POST http://localhost:8081/api/v1/vocabularies
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJsb2dpbkFjY291bnQiOiJhZG1pbl90ZWFjaGVyIiwicm9sZSI6InRlYWNoZXIiLCJpZCI6IjFkMTE2ZDE4LTExNDgtNDFiMS05NmE3LTM5MTEyMWQwMDc0MyIsImlhdCI6MTc3NDYwMDM4NSwiZXhwIjoxNzc0Njg2Nzg1fQ.tGxBmYLAKwdA6l7tPEhMGnZhWWnALVxajnbqcpwd8Oo
+
+{
+  "bookId": "book-test-01",
+  "word": "diet",
+  "partOfSpeech": "n., v., adj.",
+  "translation": "n. 日常饮食；日常食物；节食；v. 节食；adj. 低糖的，低脂肪的",
+  "example": "The Japanese diet includes rice, fish and miso soup."
+}
