@@ -3,7 +3,10 @@ package com.mihoyo.admin.service;
 
 import com.mihoyo.admin.dto.LoginDTO;
 import com.mihoyo.admin.dto.RegisterDTO;
+import com.mihoyo.admin.dto.StudentBatchCreateDTO;
 import com.mihoyo.admin.entity.User;
+
+import java.util.List;
 
 public interface UserService {
 
@@ -15,4 +18,6 @@ public interface UserService {
     User login(LoginDTO loginDTO);
 
     void register(RegisterDTO registerDTO);
+
+    void batchCreateStudents(List<StudentBatchCreateDTO> studentList);
 }

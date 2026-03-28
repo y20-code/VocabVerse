@@ -4,12 +4,15 @@ package com.mihoyo.admin.controller;
 import com.mihoyo.admin.common.Result;
 import com.mihoyo.admin.dto.LoginDTO;
 import com.mihoyo.admin.dto.RegisterDTO;
+import com.mihoyo.admin.dto.StudentBatchCreateDTO;
 import com.mihoyo.admin.entity.User;
 import com.mihoyo.admin.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @Tag(name = "1. 认证与授权模块", description = "负责用户的登录、登出与权限校验")
@@ -42,5 +45,19 @@ public class UserController {
         } catch (RuntimeException e){
             return Result.error(401,e.getMessage());
         }
+    }
+
+    @PostMapping("/batch")
+    public Result<Void> batchCreateStudents(@RequestBody List<StudentBatchCreateDTO> studentList) {
+
+        // 如果数组是空的，极其无情地驳回
+        if (studentList == null || studentList.isEmpty()) {
+            return Result.error(400,"学生名册不能为空");
+        }
+
+        // 呼叫 Service 大脑执行批量插入
+        userService.batchCreateStudents(studentList);
+
+        return Result.success();
     }
 }

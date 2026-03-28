@@ -2,6 +2,7 @@ package com.mihoyo.admin.service.impl;
 
 import com.mihoyo.admin.dto.LoginDTO;
 import com.mihoyo.admin.dto.RegisterDTO;
+import com.mihoyo.admin.dto.StudentBatchCreateDTO;
 import com.mihoyo.admin.entity.User;
 import com.mihoyo.admin.mapper.UserMapper;
 import com.mihoyo.admin.service.UserService;
@@ -9,6 +10,11 @@ import com.mihoyo.admin.utils.JwtUtils;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -65,5 +71,26 @@ public class UserServiceImpl implements UserService {
         user.setFullName("用户_" + cleanUuid.substring(0,8));
 
         userMapper.InsertUser(user);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void batchCreateStudents(List<StudentBatchCreateDTO> studentList) {
+        Date now = new Date();
+
+        // 遍历前端传过来的学生大军，挨个发配全球唯一 ID 并入库
+        for (StudentBatchCreateDTO stu : studentList) {
+            String userId = UUID.randomUUID().toString();
+
+            userMapper.insertUser(
+                    userId,
+                    stu.getLoginAccount(),
+                    stu.getPassword(), // TODO: 后期上线前得改成加密密码
+                    stu.getFullName(),
+                    stu.getRole(),
+                    stu.getClassId(),
+                    stu.getGrade(),
+                    now
+            );
+        }
     }
 }
