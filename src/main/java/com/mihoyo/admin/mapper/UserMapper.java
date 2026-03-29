@@ -1,5 +1,6 @@
 package com.mihoyo.admin.mapper;
 
+import com.mihoyo.admin.dto.UserAuthDTO;
 import com.mihoyo.admin.entity.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -32,4 +33,8 @@ public interface UserMapper {
                     @Param("classId") String classId,
                     @Param("grade") String grade,
                     @Param("createdAt") Date createdAt);
+
+    // 小程序专属：根据登录账号查询用户完整凭证
+    @Select("SELECT id, loginAccount, password, fullName, role FROM Users WHERE loginAccount = #{loginAccount} LIMIT 1")
+    UserAuthDTO selectUserByLoginAccount(@Param("loginAccount") String loginAccount);
 }

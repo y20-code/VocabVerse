@@ -76,3 +76,11 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJsb2dpbkFjY291bnQiOiJhZG1pbl90ZWFja
   "translation": "n. 日常饮食；日常食物；节食；v. 节食；adj. 低糖的，低脂肪的",
   "example": "The Japanese diet includes rice, fish and miso soup."
 }
+### 测试微信小程序登录
+POST http://localhost:8081/api/v1/wx/auth/login
+Content-Type: application/json
+
+{
+"loginAccount": "s89576",
+"password": "123"
+}
